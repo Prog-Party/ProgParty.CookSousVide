@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgParty.CookSousVide", "ProgParty.CookSousVide\ProgParty.CookSousVide.csproj", "{94952B1C-D72A-4A50-A135-22B7EB11E487}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgParty.CookSousVide", "ProgParty.CookSousVide\ProgParty.CookSousVide.csproj", "{94952B1C-D72A-4A50-A135-22B7EB11E487}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgParty.CookSousVide.Data", "ProgParty.CookSousVide.Data\ProgParty.CookSousVide.Data.csproj", "{FF54F3F0-836A-4E0C-A57F-C623CEE7EEBB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgParty.CookSousVide.Business", "ProgParty.CookSousVide.Business\ProgParty.CookSousVide.Business.csproj", "{30A75D40-4F9E-4AD8-B7C7-D005234FC044}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgParty.CookSousVide.Interface", "ProgParty.CookSousVide.Interface\ProgParty.CookSousVide.Interface.csproj", "{A077F7A3-7373-4CCA-AAB5-B5F81EF9A5EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{94952B1C-D72A-4A50-A135-22B7EB11E487}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94952B1C-D72A-4A50-A135-22B7EB11E487}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94952B1C-D72A-4A50-A135-22B7EB11E487}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF54F3F0-836A-4E0C-A57F-C623CEE7EEBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF54F3F0-836A-4E0C-A57F-C623CEE7EEBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF54F3F0-836A-4E0C-A57F-C623CEE7EEBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF54F3F0-836A-4E0C-A57F-C623CEE7EEBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30A75D40-4F9E-4AD8-B7C7-D005234FC044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30A75D40-4F9E-4AD8-B7C7-D005234FC044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30A75D40-4F9E-4AD8-B7C7-D005234FC044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30A75D40-4F9E-4AD8-B7C7-D005234FC044}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A077F7A3-7373-4CCA-AAB5-B5F81EF9A5EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A077F7A3-7373-4CCA-AAB5-B5F81EF9A5EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A077F7A3-7373-4CCA-AAB5-B5F81EF9A5EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A077F7A3-7373-4CCA-AAB5-B5F81EF9A5EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

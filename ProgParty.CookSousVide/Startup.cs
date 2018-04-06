@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProgParty.CookSousVide.Data.Repository;
+using ProgParty.CookSousVide.Interface.Repository;
 
 namespace ProgParty.CookSousVide
 {
@@ -22,6 +20,9 @@ namespace ProgParty.CookSousVide
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            // Add the configuration singleton here
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<IFoodItemRepository, FoodItemRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,6 +37,7 @@ namespace ProgParty.CookSousVide
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            
 
             app.UseStaticFiles();
 
