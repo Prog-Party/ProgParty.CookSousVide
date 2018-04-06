@@ -13,7 +13,7 @@ namespace ProgParty.CookSousVide.Data.Repository
         }
 
         public void Foo() {
-            var v = Configuration.GetConnectionString("AzuerTableStorage");
+            var v = Configuration.GetConnectionString("AzureTableStorage");
         }
     }
 }
