@@ -29,6 +29,10 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+ProgParty.CookSousVide\bin
+ProgParty.CookSousVide\obj
+ProgParty.CookSousVide/bin
+ProgParty.CookSousVide/obj
 
 # Visual Studio 2015 cache/options directory
 .vs/
