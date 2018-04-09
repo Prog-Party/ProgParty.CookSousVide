@@ -1,7 +1,10 @@
-﻿namespace ProgParty.CookSousVide.Interface.Repository
+﻿using ProgParty.CookSousVide.Interface.DataModel;
+using System.Threading.Tasks;
+
+namespace ProgParty.CookSousVide.Interface.Repository
 {
     public interface IFoodItemRepository
     {
-        void Foo();
+        Task AddFoodItem(IFoodItemModel foodItem);
     }
 }

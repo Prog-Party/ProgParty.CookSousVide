@@ -4625,6 +4625,9 @@
       "ProgParty.CookSousVide.Interface/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "WindowsAzure.Storage": "9.1.1"
+        },
         "compile": {
           "bin/placeholder/ProgParty.CookSousVide.Interface.dll": {}
         },

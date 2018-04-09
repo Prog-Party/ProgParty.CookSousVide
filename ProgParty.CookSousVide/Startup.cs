@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProgParty.CookSousVide.Data.Model;
 using ProgParty.CookSousVide.Data.Repository;
+using ProgParty.CookSousVide.Interface.DataModel;
 using ProgParty.CookSousVide.Interface.Repository;
 
 namespace ProgParty.CookSousVide
@@ -23,6 +25,7 @@ namespace ProgParty.CookSousVide
             // Add the configuration singleton here
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton<IFoodItemRepository, FoodItemRepository>();
+            services.AddSingleton<IFoodItemModel, FoodItemModel>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

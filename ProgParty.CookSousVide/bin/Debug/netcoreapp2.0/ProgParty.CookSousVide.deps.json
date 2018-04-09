@@ -3673,6 +3673,9 @@
         }
       },
       "ProgParty.CookSousVide.Interface/1.0.0": {
+        "dependencies": {
+          "WindowsAzure.Storage": "9.1.1"
+        },
         "runtime": {
           "ProgParty.CookSousVide.Interface.dll": {}
         },
