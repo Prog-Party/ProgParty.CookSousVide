@@ -23,7 +23,7 @@ namespace ProgParty.CookSousVide.Controllers
         {
             var model = Services.GetService<IFoodItemModel>();// "abc", "def");
             model.SetKey("abc", "def");
-            //FoodItemRepository.AddFoodItem();
+            FoodItemRepository.AddFoodItem(model);
             return View();
         }
 

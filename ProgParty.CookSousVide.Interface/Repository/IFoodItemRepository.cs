@@ -1,4 +1,5 @@
 ﻿using ProgParty.CookSousVide.Interface.DataModel;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ProgParty.CookSousVide.Interface.Repository
@@ -6,5 +7,6 @@ namespace ProgParty.CookSousVide.Interface.Repository
     public interface IFoodItemRepository
     {
         Task AddFoodItem(IFoodItemModel foodItem);
+        Task<List<IFoodItemModel>> GetAllFoodItems();
     }
 }
