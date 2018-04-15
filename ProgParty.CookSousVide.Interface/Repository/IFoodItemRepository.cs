@@ -7,6 +7,7 @@ namespace ProgParty.CookSousVide.Interface.Repository
     public interface IFoodItemRepository
     {
         Task AddFoodItem(IFoodItemModel foodItem);
-        Task<List<IFoodItemModel>> GetAllFoodItems();
+        Task<List<IFoodItemModel>> Get();
+        Task<List<IFoodItemModel>> Get(string animalKind);
     }
 }

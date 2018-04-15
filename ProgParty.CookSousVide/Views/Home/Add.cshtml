@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Cook Sous Vide";
+}
+
+<section class="features" style="background-color:gray">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3" style="padding-top:20px; padding-bottom:20px;">
+                @using (Html.BeginForm("Add", "Home"))
+                {
+                <input class="form-control" type="text" name="animalKind" placeholder="Animal kind" />
+                <br /><input class="form-control" type="text" name="subType" placeholder="Sub type" />
+                <br /><input class="form-control" type="submit" value="Voeg toe" />
+                }
+            </div>
+        </div>
+    </div>
+</section>

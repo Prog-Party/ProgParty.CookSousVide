@@ -8,14 +8,12 @@
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
-            <div class="col-md-6 col-sm-6">
+            <div class="col-md-3">
                 <!--logo-->
-                <div class="logo"><img src="img/logo.png" data-at2x="img/logo@2x.png" alt="logo"></div>
+                <div class="logo"><img src="img/logo.png" alt="logo"></div>@*data-at2x="img/logo@2x.png"*@
                 <!--logo end-->
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
 
                 <!--welcome-message-->
                 <header class="welcome-message text-center">
@@ -24,25 +22,22 @@
                 <!--welcome-message end-->
                 <!--sub-form-->
                 <div class="sub-form text-center">
-                    <div class="row">
-                        <div class="col-md-5 center-block col-sm-8 col-xs-11">
-                            <form role="form" id="mc-form" action="http://csmthemes.us3.list-manage.com/subscribe/post-json?u=9666c25a337f497687875a388&amp;id=5b881a50fb&amp;c=?">
-                                <div class="input-group">
-                                    <input type="search" class="form-control" placeholder="Sous vide product" required value="" name="SousVideProduct">
-                                    <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-default" id="mc-subscribe" value="SousVideProduct" name="sousVideProduct">Search<i class="fas fa-search"></i></button>
-                                    </span>
-                                </div>
-                                <div class="input-group">
-                                    <input type="search" class="form-control" placeholder="Meat type" required value="" name="MeatType">
-                                    <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-default" id="mc-subscribe" value="MeatType" name="meatType">Search<i class="fas fa-search"></i></button>
-                                    </span>
-                                </div>
-                            </form>
-                            <p id="mc-notification"></p>
-                        </div>
-                    </div>
+                        <form role="form" id="mc-form" action="http://csmthemes.us3.list-manage.com/subscribe/post-json?u=9666c25a337f497687875a388&amp;id=5b881a50fb&amp;c=?">
+                            <div class="input-group">
+                                <input type="search" class="form-control" placeholder="Type eten, zoals: koe, zalm, fruit" required value="" name="SousVideProduct" id="SousVideAnimalKind">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-default" id="mc-subscribe" value="SousVideProduct" name="sousVideProduct">Search<i class="fas fa-search"></i></button>
+                                </span>
+                            </div>
+                            <div class="input-group">
+                                <input type="search" class="form-control" placeholder="Sub type, zoals: lende, borststuk, appel" required value="" name="MeatType" id="SousVideSubType">
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn-default" id="mc-subscribe" value="MeatType" name="meatType">Search<i class="fas fa-search"></i></button>
+                                </span>
+                            </div>
+                        </form>
+                        <p id="mc-notification"></p>
+                       
                 </div>
                 <!--sub-form end-->
             </div>
@@ -52,9 +47,17 @@
 <!--main end-->
 <!--Features-->
 
-<section class="features section-spacing">
+<section class="features section-spacing" id="SousVideFoodItem">
     <div class="container">
-        <h2 class="text-center">Featered services</h2>
+        <h2 class="text-center">Sous vide voedsel</h2>
+        <div class="row">
+            <div class="col-sm-6 col-sm-offset-3">
+                Type eten: <span id="SousVideAnimalKindLabel"></span>
+                <br />Sub type: <span id="SousVideSubTypeLabel"></span>
+
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-6">
                 <div class="wow fadeInUp product-features row">
@@ -99,3 +102,88 @@
 </section>
 
 <!--Features end-->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+@section Scripts {
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    @*<script src="~/js/jquery.autocomplete.js"></script>*@
+    <script type="text/javascript">
+        var selectedAnimalKind = "";
+        var selectedSubtype = "";
+        $('#SousVideAnimalKind').autocomplete({
+            autoFocus: true,
+            source: function (request, response) {
+                $.ajax({
+                    dataType: "json",
+                    type: 'Get',
+                    url: '/Home/GetAnimalKinds?q=' + request.term,
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                animalKindSelected(ui.item.label);
+             }
+        });
+
+        function animalKindSelected(animalKind) {
+            if (animalKind != selectedAnimalKind)
+            {
+                selectedAnimalKind = animalKind;
+                selectedSubtype = "";
+                initializeSubtype();
+            }
+        }
+
+        function initializeSubtype(){
+
+            $('#SousVideSubType').autocomplete({
+                autoFocus: true,
+                source: function (request, response) {
+                    $.ajax({
+                        dataType: "json",
+                        type: 'Get',
+                        url: '/Home/GetSubTypes?animalKind=' + selectedAnimalKind + '&q=' + request.term,
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    subtypeSelected(ui.item.label);
+                }
+            });
+
+            $.ajax({
+                dataType: "json",
+                type: 'Get',
+                url: '/Home/GetSubTypesCount?animalKind=' + selectedAnimalKind,
+                success: function (data) {
+                    $("#SousVideSubType").attr("placeholder", "Sub type, zoals: lende, borststuk, appel (" + data + " gevonden)");
+                }
+            });
+
+            $('#SousVideSubType').focus();
+        }
+
+        function subtypeSelected(subType) {
+            if (subType != selectedSubtype) {
+                selectedSubtype = subType;
+
+                $('html, body').animate({
+                    scrollTop: $("#SousVideFoodItem").offset().top
+                }, 1000);
+
+                //todo: retrieve a single IFoodItemModel and add it to a js render
+                $("#SousVideAnimalKindLabel").html(selectedAnimalKind);
+                $("#SousVideSubTypeLabel").html(selectedSubtype);
+            }
+
+        }
+
+
+    </script>
+}

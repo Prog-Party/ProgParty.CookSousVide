@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="jQuery.UI.Combined" Version="1.12.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
   </ItemGroup>
 
@@ -15,6 +16,10 @@
   <ItemGroup>
     <ProjectReference Include="..\ProgParty.CookSousVide.Data\ProgParty.CookSousVide.Data.csproj" />
     <ProjectReference Include="..\ProgParty.CookSousVide.Interface\ProgParty.CookSousVide.Interface.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
 </Project>

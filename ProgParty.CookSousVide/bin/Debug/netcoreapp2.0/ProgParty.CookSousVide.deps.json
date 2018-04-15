@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "61b835bf2f058f983cf0a4bb1c0d071526fedc4d"
+    "signature": "93e5c496b7300854dc36e4c99894c1babb54c2a6"
   },
   "compilationOptions": {
     "defines": [
@@ -26,13 +26,20 @@
           "Microsoft.AspNetCore.All": "2.0.3",
           "Microsoft.NETCore.App": "2.0.0",
           "ProgParty.CookSousVide.Data": "1.0.0",
-          "ProgParty.CookSousVide.Interface": "1.0.0"
+          "ProgParty.CookSousVide.Interface": "1.0.0",
+          "jQuery.UI.Combined": "1.12.1"
         },
         "runtime": {
           "ProgParty.CookSousVide.dll": {}
         },
         "compile": {
           "ProgParty.CookSousVide.dll": {}
+        }
+      },
+      "jQuery/1.12.4": {},
+      "jQuery.UI.Combined/1.12.1": {
+        "dependencies": {
+          "jQuery": "1.12.4"
         }
       },
       "Libuv/1.10.0": {
@@ -3866,6 +3873,20 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "jQuery/1.12.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-pIYtWlFI5PGlJVB8jm9H96pAQ27jQhA9sCxMeGweeC3ByQRaB8BwkIuGdTt4go3IEKTmmfRC2y5k0FLFizWDQg==",
+      "path": "jquery/1.12.4",
+      "hashPath": "jquery.1.12.4.nupkg.sha512"
+    },
+    "jQuery.UI.Combined/1.12.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5B0LrPZ0TLlwplPRu43h7fgMtDxMMEF31HajUqHSOJ7bC6nyJUJy7AkcuGaJdBrrZAZutnSBgXT01BGiIIC4TQ==",
+      "path": "jquery.ui.combined/1.12.1",
+      "hashPath": "jquery.ui.combined.1.12.1.nupkg.sha512"
     },
     "Libuv/1.10.0": {
       "type": "package",

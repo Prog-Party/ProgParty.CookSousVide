@@ -23,8 +23,11 @@ $(function () {
    ========================================================================== */
 
     $(".main").backstretch([
-        "images/banner1.svg",
-        "images/banner2.svg"
+        "https://www.sousvidecenter.com/images/articles/sous-vide-meat-color.jpg",
+        "https://i.ytimg.com/vi/NaMtktnlb4A/maxresdefault.jpg",
+        "https://www.simplyrecipes.com/wp-content/uploads/2017/04/2017-045-17-Sous-Vide-French-Dip-Sandwiches-37.jpg",
+        //"images/banner1.svg",
+        //"images/banner2.svg"
 
     ], {
             fade: 750,
@@ -53,29 +56,6 @@ $(function () {
             });
         });
     };
-
-
-    /* ==========================================================================
-   Tweet
-   ========================================================================== */
-
-
-    $('.tweet').twittie({
-        username: 'designstub', // change username here
-        dateFormat: '%b. %d, %Y',
-        template: '{{tweet}} {{user_name}}',
-        count: 10
-    }, function () {
-        var item = $('.tweet ul');
-
-        item.children('li').first().show().siblings().hide();
-        setInterval(function () {
-            item.find('li:visible').fadeOut(500, function () {
-                $(this).appendTo(item);
-                item.children('li').first().fadeIn(500);
-            });
-        }, 5000);
-    });
 
     /* ==========================================================================
    countdown

@@ -1,0 +1,30 @@
+﻿@model List<ProgParty.CookSousVide.Interface.DataModel.IFoodItemModel>
+@{
+    ViewData["Title"] = "Cook Sous Vide";
+}
+
+<section class="features">
+    <div class="container">
+        Alle sousvide gerechten!
+
+        <table class="table">
+            <tr>
+                <th>AnimalKind</th>
+                <th>SubType</th>
+                <th>TemperatureRare</th>
+                <th>TemperatureWellDone</th>
+                <th>CookingTimeInMinutes</th>
+            </tr>
+            <tr>
+                @foreach(var foodItem in Model)
+                {
+                    <td>@foodItem.AnimalKind</td>
+                    <td>@foodItem.SubType</td>
+                    <td>@foodItem.TemperatureRare</td>
+                    <td>@foodItem.TemperatureWellDone</td>
+                    <td>@foodItem.CookingTimeInMinutes</td>
+                }
+            </tr>
+        </table>
+    </div>
+</section>
