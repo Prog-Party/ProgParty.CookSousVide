@@ -57,6 +57,5 @@ namespace ProgParty.CookSousVide.Data.Repository
 
         public static string GetPartitionKeyCondition(string partitionKey)
             => TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey);
-
     }
 }

@@ -49,56 +49,7 @@
 
 <section class="features section-spacing" id="SousVideFoodItem">
     <div class="container">
-        <h2 class="text-center">Sous vide voedsel</h2>
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-                Type eten: <span id="SousVideAnimalKindLabel"></span>
-                <br />Sub type: <span id="SousVideSubTypeLabel"></span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="wow fadeInUp product-features row">
-                    <div class="col-md-2 col-sm-2 col-xs-2 text-center"><i class="fa fa-thermometer-quarter fa-3x"></i></div>
-                    <div class="col-md-10 col-sm-10 col-xs-10">
-                        <h4>Temperature of product</h4>
-                        <div class="row">
-                            <div class="col-md-4" style="text-align:right;">
-                                Rare
-                            </div>
-                            <div class="col-md-4">
-                            </div>
-                            <div class="col-md-4">
-                                Well done
-                            </div>
-                        </div>
-                        <div class="progress" style="margin-bottom:0px; height:30px;">
-                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width:30%">
-                            </div>
-                            <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%">
-                            </div>
-                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width:30%">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4" style="text-align:right;">
-                                52.0&deg;
-                            </div>
-                            <div class="col-md-4">
-
-                            </div>
-                            <div class="col-md-4">
-                                56.0&deg;
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
         <div id="SousVideFoodItemInfo"></div>
-        
     </div>
 </section>
 
@@ -107,13 +58,12 @@
 
 @section Scripts {
 <script id="foodItemTemplate" type="text/x-jsrender">
-
     <div>
-        <h2>{{:SousVideAnimalKindLabel}}</h2>
-        <h3>{{:SousVideSubTypeLabel}}</h3>
-        <p>{{:SousVideSubTypeInfo}}</p>
+        <h2>{{:AnimalKindLabel}}</h2>
+        <h3>{{:SubTypeLabel}}</h3>
+        <p>{{:SubTypeInfo}}</p>
 
-        <div class="wow fadeInUp product-features row">
+        <div class="fadeInUp product-features row">
             <div class="col-md-2 col-sm-2 col-xs-2 text-center"><i class="fa fa-thermometer-quarter fa-3x"></i></div>
             <div class="col-md-10 col-sm-10 col-xs-10">
                 <h4>Temperature of product</h4>
@@ -137,13 +87,13 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4" style="text-align:right;">
-                        {{:SousVideSubTypeTemperatureLow}}&deg;
+                        {{:SubTypeTemperatureLow}}&deg;
                     </div>
                     <div class="col-md-4">
 
                     </div>
                     <div class="col-md-4">
-                        {{:SousVideSubTypeTemperatureHigh}}&deg;
+                        {{:SubTypeTemperatureHigh}}&deg;
                     </div>
                 </div>
             </div>
@@ -152,96 +102,109 @@
 
 </script>
 
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    @*<script src="~/js/jquery.autocomplete.js"></script>*@
-    <script type="text/javascript">
-        var selectedAnimalKind = "";
-        var selectedSubtype = "";
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    @*
+<script src="~/js/jquery.autocomplete.js"></script>*@
+<script type="text/javascript">
+    var selectedAnimalKind = "";
+    var selectedSubtype = "";
 
-        $(function () {
-            initializeSousVideAnimalKind();
+    $(function () {
+        initializeSousVideAnimalKind();
+    });
+
+
+    function initializeSousVideAnimalKind() {
+        $('#SousVideAnimalKind').autocomplete({
+            autoFocus: true,
+            source: function (request, response) {
+                $.ajax({
+                    dataType: "json",
+                    type: 'Get',
+                    url: '/Home/GetAnimalKinds?q=' + request.term,
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                animalKindSelected(ui.item.label);
+            }
         });
 
 
-        function initializeSousVideAnimalKind() {
-            $('#SousVideAnimalKind').autocomplete({
-                autoFocus: true,
-                source: function (request, response) {
-                    $.ajax({
-                        dataType: "json",
-                        type: 'Get',
-                        url: '/Home/GetAnimalKinds?q=' + request.term,
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                },
-                minLength: 1,
-                select: function (event, ui) {
-                    animalKindSelected(ui.item.label);
-                }
-            });
+    }
 
-
+    function animalKindSelected(animalKind) {
+        if (animalKind != selectedAnimalKind) {
+            selectedAnimalKind = animalKind;
+            selectedSubtype = "";
+            initializeSubtype();
         }
+    }
 
-        function animalKindSelected(animalKind) {
-            if (animalKind != selectedAnimalKind) {
-                selectedAnimalKind = animalKind;
-                selectedSubtype = "";
-                initializeSubtype();
+    function initializeSubtype() {
+        initializeSubtypeAutocomplete();
+        setAmountSubtypes();
+        $('#SousVideSubType').focus();
+    }
+
+    function setAmountSubtypes() {
+        $.ajax({
+            dataType: "json",
+            type: 'Get',
+            url: '/Home/GetSubTypesCount?animalKind=' + selectedAnimalKind,
+            success: function (data) {
+                $("#SousVideSubType").attr("placeholder", "Sub type, zoals: lende, borststuk, appel (" + data + " gevonden)");
             }
-        }
+        });
+    }
 
-        function initializeSubtype() {
-            initializeSubtypeAutocomplete();
-            setAmountSubtypes();
-            $('#SousVideSubType').focus();
-        }
-
-        function setAmountSubtypes() {
-            $.ajax({
-                dataType: "json",
-                type: 'Get',
-                url: '/Home/GetSubTypesCount?animalKind=' + selectedAnimalKind,
-                success: function (data) {
-                    $("#SousVideSubType").attr("placeholder", "Sub type, zoals: lende, borststuk, appel (" + data + " gevonden)");
-                }
-            });
-        }
-
-        function initializeSubtypeAutocomplete() {
-            $('#SousVideSubType').autocomplete({
-                autoFocus: true,
-                source: function (request, response) {
-                    $.ajax({
-                        dataType: "json",
-                        type: 'Get',
-                        url: '/Home/GetSubTypes?animalKind=' + selectedAnimalKind + '&q=' + request.term,
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                },
-                minLength: 1,
-                select: function (event, ui) {
-                    subtypeSelected(ui.item.label);
-                }
-            });
-        }
-
-        function subtypeSelected(subType) {
-            if (subType != selectedSubtype) {
-                selectedSubtype = subType;
-
-                $('html, body').animate({ scrollTop: $("#SousVideFoodItem").offset().top}, 1000);
-
-                //todo: retrieve a single IFoodItemModel and add it to a js render
-                $("#SousVideAnimalKindLabel").html(selectedAnimalKind);
-                $("#SousVideSubTypeLabel").html(selectedSubtype);
+    function initializeSubtypeAutocomplete() {
+        $('#SousVideSubType').autocomplete({
+            autoFocus: true,
+            source: function (request, response) {
+                $.ajax({
+                    dataType: "json",
+                    type: 'Get',
+                    url: '/Home/GetSubTypes?animalKind=' + selectedAnimalKind + '&q=' + request.term,
+                    success: function (data) {
+                        response(data);
+                    }
+                });
+            },
+            minLength: 1,
+            select: function (event, ui) {
+                subtypeSelected(ui.item.label);
             }
-        }
+        });
+    }
 
-    </script>
+    function subtypeSelected(subType) {
+        if (subType != selectedSubtype) {
+            selectedSubtype = subType;
+
+            $('html, body').animate({ scrollTop: $("#SousVideFoodItem").offset().top }, 1000);
+
+            //todo: retrieve a single IFoodItemModel and add it to a js render
+
+            var data = [
+                {
+                    "AnimalKindLabel": "Cow",
+                    "SubTypeLabel": "Steak",
+                    "SubTypeInfo": "A steak is a meat generally sliced across the muscle fibers, potentially including a bone. Exceptions, in which the meat is sliced parallel to the fibers, include the skirt steak that is cut from the plate, the flank steak that is cut from the abdominal muscles, and the Silverfinger steak that is cut from the loin and includes three rib bones. When the word 'steak' is used without qualification, it generally refers to a beefsteak. In a larger sense, there are also fish steaks, ground meat steaks, pork steak and many more varieties of steaks.",
+                    "SubTypeTemperatureLow": 52.0,
+                    "SubTypeTemperatureHigh": 56.0
+                }
+            ];
+
+            var html = $("#foodItemTemplate").render(data);
+
+            $("#SousVideFoodItemInfo").html(html);
+        }
+    }
+
+</script>
 
 }
