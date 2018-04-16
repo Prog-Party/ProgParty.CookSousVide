@@ -9,5 +9,6 @@ namespace ProgParty.CookSousVide.Interface.Repository
         Task AddFoodItem(IFoodItemModel foodItem);
         Task<List<IFoodItemModel>> Get();
         Task<List<IFoodItemModel>> Get(string animalKind);
+        Task<int> GetCount(string animalKind);
     }
 }

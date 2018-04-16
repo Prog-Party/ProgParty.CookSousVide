@@ -98,51 +98,7 @@
 
 
         <div id="SousVideFoodItemInfo"></div>
-        <script id="foodItemTemplate" type="text/x-jsrender">
-
-            <div>
-                <h2>{{:SousVideAnimalKindLabel}}</h2>
-                <h3>{{:SousVideSubTypeLabel}}</h3>
-                <p>{{:SousVideSubTypeInfo}}</p>
-
-                <div class="wow fadeInUp product-features row">
-                    <div class="col-md-2 col-sm-2 col-xs-2 text-center"><i class="fa fa-thermometer-quarter fa-3x"></i></div>
-                    <div class="col-md-10 col-sm-10 col-xs-10">
-                        <h4>Temperature of product</h4>
-                        <div class="row">
-                            <div class="col-md-4" style="text-align:right;">
-                                Rare
-                            </div>
-                            <div class="col-md-4">
-                            </div>
-                            <div class="col-md-4">
-                                Well done
-                            </div>
-                        </div>
-                        <div class="progress" style="margin-bottom:0px; height:30px;">
-                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width:30%">
-                            </div>
-                            <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%">
-                            </div>
-                            <div class="progress-bar progress-bar-danger" role="progressbar" style="width:30%">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4" style="text-align:right;">
-                                {{:SousVideSubTypeTemperatureLow}}&deg;
-                            </div>
-                            <div class="col-md-4">
-
-                            </div>
-                            <div class="col-md-4">
-                                {{:SousVideSubTypeTemperatureHigh}}&deg;
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </script>
+        
     </div>
 </section>
 
@@ -150,28 +106,84 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 @section Scripts {
+<script id="foodItemTemplate" type="text/x-jsrender">
+
+    <div>
+        <h2>{{:SousVideAnimalKindLabel}}</h2>
+        <h3>{{:SousVideSubTypeLabel}}</h3>
+        <p>{{:SousVideSubTypeInfo}}</p>
+
+        <div class="wow fadeInUp product-features row">
+            <div class="col-md-2 col-sm-2 col-xs-2 text-center"><i class="fa fa-thermometer-quarter fa-3x"></i></div>
+            <div class="col-md-10 col-sm-10 col-xs-10">
+                <h4>Temperature of product</h4>
+                <div class="row">
+                    <div class="col-md-4" style="text-align:right;">
+                        Rare
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                        Well done
+                    </div>
+                </div>
+                <div class="progress" style="margin-bottom:0px; height:30px;">
+                    <div class="progress-bar progress-bar-danger" role="progressbar" style="width:30%">
+                    </div>
+                    <div class="progress-bar progress-bar-success" role="progressbar" style="width:40%">
+                    </div>
+                    <div class="progress-bar progress-bar-danger" role="progressbar" style="width:30%">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4" style="text-align:right;">
+                        {{:SousVideSubTypeTemperatureLow}}&deg;
+                    </div>
+                    <div class="col-md-4">
+
+                    </div>
+                    <div class="col-md-4">
+                        {{:SousVideSubTypeTemperatureHigh}}&deg;
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</script>
+
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     @*<script src="~/js/jquery.autocomplete.js"></script>*@
     <script type="text/javascript">
         var selectedAnimalKind = "";
         var selectedSubtype = "";
-        $('#SousVideAnimalKind').autocomplete({
-            autoFocus: true,
-            source: function (request, response) {
-                $.ajax({
-                    dataType: "json",
-                    type: 'Get',
-                    url: '/Home/GetAnimalKinds?q=' + request.term,
-                    success: function (data) {
-                        response(data);
-                    }
-                });
-            },
-            minLength: 1,
-            select: function (event, ui) {
-                animalKindSelected(ui.item.label);
-            }
+
+        $(function () {
+            initializeSousVideAnimalKind();
         });
+
+
+        function initializeSousVideAnimalKind() {
+            $('#SousVideAnimalKind').autocomplete({
+                autoFocus: true,
+                source: function (request, response) {
+                    $.ajax({
+                        dataType: "json",
+                        type: 'Get',
+                        url: '/Home/GetAnimalKinds?q=' + request.term,
+                        success: function (data) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 1,
+                select: function (event, ui) {
+                    animalKindSelected(ui.item.label);
+                }
+            });
+
+
+        }
 
         function animalKindSelected(animalKind) {
             if (animalKind != selectedAnimalKind) {
@@ -182,7 +194,23 @@
         }
 
         function initializeSubtype() {
+            initializeSubtypeAutocomplete();
+            setAmountSubtypes();
+            $('#SousVideSubType').focus();
+        }
 
+        function setAmountSubtypes() {
+            $.ajax({
+                dataType: "json",
+                type: 'Get',
+                url: '/Home/GetSubTypesCount?animalKind=' + selectedAnimalKind,
+                success: function (data) {
+                    $("#SousVideSubType").attr("placeholder", "Sub type, zoals: lende, borststuk, appel (" + data + " gevonden)");
+                }
+            });
+        }
+
+        function initializeSubtypeAutocomplete() {
             $('#SousVideSubType').autocomplete({
                 autoFocus: true,
                 source: function (request, response) {
@@ -200,32 +228,18 @@
                     subtypeSelected(ui.item.label);
                 }
             });
-
-            $.ajax({
-                dataType: "json",
-                type: 'Get',
-                url: '/Home/GetSubTypesCount?animalKind=' + selectedAnimalKind,
-                success: function (data) {
-                    $("#SousVideSubType").attr("placeholder", "Sub type, zoals: lende, borststuk, appel (" + data + " gevonden)");
-                }
-            });
-
-            $('#SousVideSubType').focus();
         }
 
         function subtypeSelected(subType) {
             if (subType != selectedSubtype) {
                 selectedSubtype = subType;
 
-                $('html, body').animate({
-                    scrollTop: $("#SousVideFoodItem").offset().top
-                }, 1000);
+                $('html, body').animate({ scrollTop: $("#SousVideFoodItem").offset().top}, 1000);
 
                 //todo: retrieve a single IFoodItemModel and add it to a js render
                 $("#SousVideAnimalKindLabel").html(selectedAnimalKind);
                 $("#SousVideSubTypeLabel").html(selectedSubtype);
             }
-
         }
 
     </script>
