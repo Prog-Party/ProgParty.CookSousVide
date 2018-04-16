@@ -25,8 +25,9 @@ namespace ProgParty.CookSousVide.Data.Repository
         }
         public async Task<List<string>> GetAnimalKindList()
         {
-            //todo: Get all animal kinds by partitionKey = 'All'
-            throw new NotImplementedException();
+            var table = GetTable();
+            var foodItems = await table.ExecuteQuery(new TableQuery<FoodItemModel>() { FilterString = GetPartitionKeyCondition("All") });
+            return foodItems.Select(f => f.AnimalKind).ToList();
         }
 
         public async Task AddFoodItem(IFoodItemModel foodItem)
@@ -54,7 +55,7 @@ namespace ProgParty.CookSousVide.Data.Repository
             return foodItems.Count();
         }
 
-        public static string GetPartitionKeyCondition(string partitionKey) 
+        public static string GetPartitionKeyCondition(string partitionKey)
             => TableQuery.GenerateFilterCondition("PartitionKey", QueryComparisons.Equal, partitionKey);
 
     }
