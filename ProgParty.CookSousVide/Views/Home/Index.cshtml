@@ -59,9 +59,9 @@
 @section Scripts {
 <script id="foodItemTemplate" type="text/x-jsrender">
     <div>
-        <h2>{{:AnimalKindLabel}}</h2>
-        <h3>{{:SubTypeLabel}}</h3>
-        <p>{{:SubTypeInfo}}</p>
+        <h2>{{:animalKind}}</h2>
+        <h3>{{:subType}}</h3>
+        <p>{{:subTypeInfo}}</p>
 
         <div class="fadeInUp product-features row">
             <div class="col-md-2 col-sm-2 col-xs-2 text-center"><i class="fa fa-thermometer-quarter fa-3x"></i></div>
@@ -87,13 +87,13 @@
                 </div>
                 <div class="row">
                     <div class="col-md-4" style="text-align:right;">
-                        {{:SubTypeTemperatureLow}}&deg;
+                        {{:temperatureRare}}&deg;
                     </div>
                     <div class="col-md-4">
 
                     </div>
                     <div class="col-md-4">
-                        {{:SubTypeTemperatureHigh}}&deg;
+                        {{:temperatureWellDone}}&deg;
                     </div>
                 </div>
             </div>
@@ -187,21 +187,29 @@
 
             $('html, body').animate({ scrollTop: $("#SousVideFoodItem").offset().top }, 1000);
 
-            //todo: retrieve a single IFoodItemModel and add it to a js render
-
-            var data = [
-                {
-                    "AnimalKindLabel": "Cow",
-                    "SubTypeLabel": "Steak",
-                    "SubTypeInfo": "A steak is a meat generally sliced across the muscle fibers, potentially including a bone. Exceptions, in which the meat is sliced parallel to the fibers, include the skirt steak that is cut from the plate, the flank steak that is cut from the abdominal muscles, and the Silverfinger steak that is cut from the loin and includes three rib bones. When the word 'steak' is used without qualification, it generally refers to a beefsteak. In a larger sense, there are also fish steaks, ground meat steaks, pork steak and many more varieties of steaks.",
-                    "SubTypeTemperatureLow": 52.0,
-                    "SubTypeTemperatureHigh": 56.0
+            $.ajax({
+                dataType: "json",
+                type: 'Get',
+                url: '/Home/GetIFoodItem?animalKind=' + selectedAnimalKind + '&subtype=' + selectedSubtype,
+                success: function (data) {
+                    console.log(data);
+                    var html = $("#foodItemTemplate").render(data);
+                    $("#SousVideFoodItemInfo").html(html);
                 }
-            ];
+            });
 
-            var html = $("#foodItemTemplate").render(data);
+            //var data = [
+            //    {
+            //        "animalKind": "Cow",
+            //        "subType": "Steak",
+            //        "subTypeInfo": "A steak is a meat generally sliced across the muscle fibers, potentially including a bone. Exceptions, in which the meat is sliced parallel to the fibers, include the skirt steak that is cut from the plate, the flank steak that is cut from the abdominal muscles, and the Silverfinger steak that is cut from the loin and includes three rib bones. When the word 'steak' is used without qualification, it generally refers to a beefsteak. In a larger sense, there are also fish steaks, ground meat steaks, pork steak and many more varieties of steaks.",
+            //        "temperatureRare": 52.0,
+            //        "temperatureWellDone": 56.0
+            //    }
+            //];
 
-            $("#SousVideFoodItemInfo").html(html);
+            //var html = $("#foodItemTemplate").render(data);
+            //$("#SousVideFoodItemInfo").html(html);
         }
     }
 
