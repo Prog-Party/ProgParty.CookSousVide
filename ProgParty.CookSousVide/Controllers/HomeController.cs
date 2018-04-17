@@ -55,7 +55,7 @@ namespace ProgParty.CookSousVide.Controllers
                 .Select(f => new { value = f, data = f }));
 
         public async Task<JsonResult> GetSubTypesCount(string animalKind)
-            => Json((await FoodItemRepository.Get(animalKind)).Count());
+            => Json((await FoodItemRepository.GetCount(animalKind)));
 
         public async Task<IActionResult> ViewAll()
         {
