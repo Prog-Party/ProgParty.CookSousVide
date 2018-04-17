@@ -4,6 +4,7 @@ using ProgParty.CookSousVide.Interface.DataModel;
 using ProgParty.CookSousVide.Interface.Repository;
 using ProgParty.CookSousVide.Models;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,6 +57,11 @@ namespace ProgParty.CookSousVide.Controllers
 
         public async Task<JsonResult> GetSubTypesCount(string animalKind)
             => Json((await FoodItemRepository.GetCount(animalKind)));
+
+        public async Task<IFoodItemModel> GetIFoodItem(string animalKind, string subtype)
+        {
+            return (await FoodItemRepository.Get(animalKind)).SingleOrDefault(f => f.SubType == subtype);
+        }
 
         public async Task<IActionResult> ViewAll()
         {
