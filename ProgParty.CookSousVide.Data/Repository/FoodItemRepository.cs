@@ -48,6 +48,16 @@ namespace ProgParty.CookSousVide.Data.Repository
             var foodItems = await table.ExecuteQuery(new TableQuery<FoodItemModel>() { FilterString = GetPartitionKeyCondition(animalKind) });
             return foodItems.ToList<IFoodItemModel>();
         }
+
+        public async Task<IFoodItemModel> Get(string animalKind, string subType)
+        {
+            var filterRow = TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, subType);
+
+            var table = GetTable();
+            var foodItems = await table.ExecuteQuery(new TableQuery<FoodItemModel>().Where(filterRow));
+            return foodItems.SingleOrDefault();
+        }
+
         public async Task<int> GetCount(string animalKind)
         {
             var table = GetTable();

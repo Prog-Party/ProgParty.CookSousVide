@@ -190,29 +190,13 @@
             $.ajax({
                 dataType: "json",
                 type: 'Get',
-                url: '/Home/GetIFoodItem?animalKind=' + selectedAnimalKind + '&subtype=' + selectedSubtype,
+                url: '/Home/GetFoodItem?animalKind=' + selectedAnimalKind + '&subtype=' + selectedSubtype,
                 success: function (data) {
-                    console.log(data);
-                    var html = $("#foodItemTemplate").render(data);
-                    $("#SousVideFoodItemInfo").html(html);
+                    $("#SousVideFoodItemInfo").html($("#foodItemTemplate").render(data));
                 }
             });
-
-            //var data = [
-            //    {
-            //        "animalKind": "Cow",
-            //        "subType": "Steak",
-            //        "subTypeInfo": "A steak is a meat generally sliced across the muscle fibers, potentially including a bone. Exceptions, in which the meat is sliced parallel to the fibers, include the skirt steak that is cut from the plate, the flank steak that is cut from the abdominal muscles, and the Silverfinger steak that is cut from the loin and includes three rib bones. When the word 'steak' is used without qualification, it generally refers to a beefsteak. In a larger sense, there are also fish steaks, ground meat steaks, pork steak and many more varieties of steaks.",
-            //        "temperatureRare": 52.0,
-            //        "temperatureWellDone": 56.0
-            //    }
-            //];
-
-            //var html = $("#foodItemTemplate").render(data);
-            //$("#SousVideFoodItemInfo").html(html);
         }
     }
 
 </script>
-
 }
