@@ -111,6 +111,7 @@
 
     $(function () {
         initializeSousVideAnimalKind();
+        $('#SousVideAnimalKind').focus();
     });
 
 
@@ -132,8 +133,12 @@
                 animalKindSelected(ui.item.label);
             }
         });
-
-
+        $('#SousVideAnimalKind').focus(function () {
+            var val = $('#SousVideAnimalKind').val();
+            if (!val)
+                val = "-1";
+            $("#SousVideAnimalKind").autocomplete('search', val);
+        });
     }
 
     function animalKindSelected(animalKind) {
@@ -179,6 +184,13 @@
                 subtypeSelected(ui.item.label);
             }
         });
+
+        $('#SousVideSubType').focus(function () {
+            var val = $('#SousVideSubType').val();
+            if (!val)
+                val = "-1";
+            $("#SousVideSubType").autocomplete('search', val);
+        });
     }
 
     function subtypeSelected(subType) {
@@ -193,6 +205,7 @@
                 url: '/Home/GetFoodItem?animalKind=' + selectedAnimalKind + '&subtype=' + selectedSubtype,
                 success: function (data) {
                     $("#SousVideFoodItemInfo").html($("#foodItemTemplate").render(data));
+                    $('html, body').animate({ scrollTop: $("#SousVideFoodItem").offset().top }, 1000);
                 }
             });
         }

@@ -4,7 +4,6 @@ using ProgParty.CookSousVide.Data.Extention;
 using ProgParty.CookSousVide.Data.Model;
 using ProgParty.CookSousVide.Interface.DataModel;
 using ProgParty.CookSousVide.Interface.Repository;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,17 +16,27 @@ namespace ProgParty.CookSousVide.Data.Repository
 
         public FoodItemRepository(IConfiguration configuation) : base(configuation) { }
 
-        public async Task SetAnimalKindList()
+        private async Task SetAnimalKindList()
         {
-            //todo: Get all animal kinds
-            //todo: update db with animal kinds, partitionKey = 'All'
-            throw new NotImplementedException();
+            var allAnimalKinds = new AllAnimalKinds();
+            allAnimalKinds.SetAll(await GetAllAnimalKinds());
+
+            var table = GetTable();
+            await table.ExecuteAsync(TableOperation.InsertOrReplace(allAnimalKinds));
         }
+
+        private async Task<List<string>> GetAllAnimalKinds()
+            => (await GetAll())
+                .Select(f => f.AnimalKind)
+                .Distinct()
+                .Where(s => s != "All")
+                .ToList();
+
         public async Task<List<string>> GetAnimalKindList()
         {
             var table = GetTable();
-            var foodItems = await table.ExecuteQuery(new TableQuery<FoodItemModel>() { FilterString = GetPartitionKeyCondition("All") });
-            return foodItems.Select(f => f.AnimalKind).ToList();
+            var allAnimalKinds = (await table.ExecuteAsync(TableOperation.Retrieve<AllAnimalKinds>("All", "All")));
+            return ((AllAnimalKinds)allAnimalKinds.Result).GetAll();
         }
 
         public async Task AddFoodItem(IFoodItemModel foodItem)
@@ -35,8 +44,9 @@ namespace ProgParty.CookSousVide.Data.Repository
             var table = GetTable();
             var insertOperation = TableOperation.Insert(foodItem);
             await table.ExecuteAsync(insertOperation);
+            await SetAnimalKindList();
         }
-        public async Task<List<IFoodItemModel>> Get()
+        public async Task<List<IFoodItemModel>> GetAll()
         {
             var table = GetTable();
             var foodItems = await table.ExecuteQuery(new TableQuery<FoodItemModel>());

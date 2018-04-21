@@ -6,6 +6,7 @@ using ProgParty.CookSousVide.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,18 +43,29 @@ namespace ProgParty.CookSousVide.Controllers
         }
 
         public async Task<JsonResult> GetAnimalKinds(string q)
-            => Json((await FoodItemRepository.Get())
-                .Select(f => f.AnimalKind)
-                .Distinct()
-                .Where(f => f.Contains(q))
-                .Select(f => new { label = f, value = f }));
+        {
+            var all = await FoodItemRepository.GetAnimalKindList();
+            IEnumerable<string> result = all;
+            if (q != "-1")
+                result = all.Where(f => Compare(f, q));
+            return Json(result.Select(f => new { label = f, value = f }));
+        }
 
         public async Task<JsonResult> GetSubTypes(string animalKind, string q)
-            => Json((await FoodItemRepository.Get(animalKind))
+        {
+            var all = (await FoodItemRepository.Get(animalKind))
                 .Select(f => f.SubType)
-                .Distinct()
-                .Where(f => f.Contains(q))
-                .Select(f => new { value = f, data = f }));
+                .Distinct();
+            IEnumerable<string> result = all;
+            if (q != "-1")
+                result = all.Where(f => Compare(f, q));
+
+            return Json(result.Select(f => new { value = f, data = f }));
+        }
+
+        private bool Compare(string a, string b)
+            => System.Threading.Thread.CurrentThread.CurrentCulture.CompareInfo.IndexOf(a, b, CompareOptions.IgnoreCase) >= 0;
+
 
         public async Task<JsonResult> GetSubTypesCount(string animalKind)
             => Json((await FoodItemRepository.GetCount(animalKind)));
@@ -65,7 +77,7 @@ namespace ProgParty.CookSousVide.Controllers
 
         public async Task<IActionResult> ViewAll()
         {
-            var allFoodItems = await FoodItemRepository.Get();
+            var allFoodItems = await FoodItemRepository.GetAll();
             return View(allFoodItems);
         }
 
