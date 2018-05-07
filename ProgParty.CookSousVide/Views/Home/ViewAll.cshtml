@@ -3,28 +3,64 @@
     ViewData["Title"] = "Cook Sous Vide";
 }
 
+<style>
+    .active .editable {
+        border: 1px solid grey;
+        padding: 3px 15px;
+    }
+</style>
+
 <section class="features">
     <div class="container">
         Alle sousvide gerechten!
 
         <table class="table">
-            <tr>
-                <th>AnimalKind</th>
-                <th>SubType</th>
-                <th>TemperatureRare</th>
-                <th>TemperatureWellDone</th>
-                <th>CookingTimeInMinutes</th>
-            </tr>
-            <tr>
-                @foreach(var foodItem in Model)
+            <thead>
+                <tr>
+                    <th>AnimalKind</th>
+                    <th>SubType</th>
+                    <th>TemperatureRare</th>
+                    <th>TemperatureWellDone</th>
+                    <th>CookingTimeInMinutes</th>
+                    <th>Acties</th>
+                </tr>
+            </thead>
+                @foreach (var foodItem in Model.Where(a => a.AnimalKind != "All"))
                 {
-                    <td>@foodItem.AnimalKind</td>
-                    <td>@foodItem.SubType</td>
-                    <td>@foodItem.TemperatureRare</td>
-                    <td>@foodItem.TemperatureWellDone</td>
-                    <td>@foodItem.CookingTimeInMinutes</td>
+                    <tr id="@(foodItem.AnimalKind)_@(foodItem.SubType)">
+                        <td>@foodItem.AnimalKind</td>
+                        <td>@foodItem.SubType</td>
+                        <td><span class="editable" name="TemperatureRare">@foodItem.TemperatureRare</span></td>
+                        <td><span class="editable" name="TemperatureWellDone">@foodItem.TemperatureWellDone</span></td>
+                        <td><span class="editable" name="CookingTimeInMinutes">@foodItem.CookingTimeInMinutes</span></td>
+                        <td>
+                            <input type="button" class="editButton btn btn-small" onclick="edit('@(foodItem.AnimalKind)_@(foodItem.SubType)')" value="Wijzig" />
+                            <input style="display:none;" type="button" class="saveButton btn btn-small btn-success" onclick="save('@(foodItem.AnimalKind)_@(foodItem.SubType)')" value="Opslaan" />
+                        
+                        </td>
+                    </tr>
                 }
-            </tr>
         </table>
     </div>
 </section>
+
+@section Scripts 
+{
+    <script type="text/javascript">
+        function edit(id) {
+            var row = $("#" + id);
+
+            $("tr.active").removeClass("active");
+            row.addClass("active");
+
+            $(".editButton").show();
+            row.find(".editButton").hide();
+
+            $(".saveButton").hide();
+            row.find(".saveButton").show();
+
+            $(".editable").removeAttr("contenteditable");
+            row.find(".editable").attr("contenteditable", "true");
+        }
+    </script>
+}

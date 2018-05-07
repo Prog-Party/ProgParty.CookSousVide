@@ -49,6 +49,21 @@ namespace ProgParty.CookSousVide
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+
+                //routes.MapRoute(
+                //    name: "home_route",
+                //    template: "Home/{action}",
+                //    defaults: new { controller = "Home", action = "Index" });
+
+                //routes.MapRoute(
+                //    name: "default_route",
+                //    template: "{controller}",
+                //    defaults: new { controller = "Home", action = "Index" });
+
+                //routes.MapRoute(
+                //    name: "fooditem_route",
+                //    template: "{animalKind}/{subType}",
+                //    defaults: new { controller = "FoodItem", action = "Show" });
             });
         }
     }
