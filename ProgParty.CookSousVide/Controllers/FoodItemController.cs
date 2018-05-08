@@ -15,10 +15,11 @@ namespace ProgParty.CookSousVide.Controllers
             Services = services;
         }
 
-        public IActionResult Show(string animalKind, string subType)
+        public IActionResult Show()
         {
-
-            throw new NotImplementedException();
+            //string animalKind, string subType
+            return View();
+            //throw new NotImplementedException();
         }
     }
 }
